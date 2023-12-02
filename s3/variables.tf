@@ -22,6 +22,11 @@ variable "ignore_public_acls" {
   default     = true
 }
 
+variable "kms_key_arn" {
+  description = "The ARN of the KMS key used to encrypt pbjects in the bucket."
+  type        = string
+}
+
 variable "restrict_public_buckets" {
   description = "Whether S3 should restrict public bucket policies for this bucket."
   type        = bool
@@ -41,5 +46,16 @@ variable "object_ownership" {
   validation {
     condition     = contains(["BucketOwnerPreferred", "ObjectWriter", "BucketOwnerEnforced"], var.object_ownership)
     error_message = "Object ownership must be one of the following; BucketOwnerPreferred, ObjectWriter or BucketOwnerEnforced."
+  }
+}
+
+variable "versioning_configuration_enabled" {
+  description = "Versioning state of the bucket."
+  type        = string
+  default     = "Enabled"
+
+  validation {
+    condition     = contains(["Enabled", "Suspended", "Disabled"], var.versioning_configuration_enabled)
+    error_message = "Versioning configuration must be one of the following; Enabled, Suspended or Disabled."
   }
 }
