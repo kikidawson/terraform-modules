@@ -6,6 +6,6 @@ resource "aws_kms_key" "this" {
 module "bucket" {
   source = "../"
 
-  name = "tester-bucket"
+  name = "tester-${data.aws_caller_identity.current.account_id}"
   kms_key_arn = aws_kms_key.this.arn
 }
